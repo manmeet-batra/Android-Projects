@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_screen"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <include layout="@layout/list_inflate" />
+
+    <com.example.adwaz.utils.HorizontalListView
+        android:id="@+id/item_detail_tag_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp" >
+    </com.example.adwaz.utils.HorizontalListView>
+
+    <ListView
+        android:id="@+id/frag_profile_listView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:cacheColorHint="@android:color/transparent"
+        android:listSelector="@android:color/transparent"
+        android:paddingTop="10dp" />
+
+</LinearLayout>

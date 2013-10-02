@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Adwaz</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="application_message">Would you like to exit from the application?</string>
+    <!-- Splash Screen -->
+
+    <string name="splash_welcome">Welcome Screen</string>
+
+    <!--  -->
+    <string name="header_text">Header Text</string>
+
+    <!-- Dialog string -->
+
+    <string name="alert_ok">Ok</string>
+    <string name="alert_cancel">Cancel</string>
+    <string name="image_option_alert">Choose an option</string>
+    <string name="image_option_camera">Camera</string>
+    <string name="image_option_gallery">Gallery</string>
+    <!-- About Us Text -->
+    <string name="aboutus_title">ABOUT US</string>
+    <string name="aboutus_text"> This screen will provide information regarding the application and its use.</string>
+
+    <!-- Login Screen Strings -->
+    <string name="login_title">LOG IN</string>
+    <string name="edit_email">Enter Email</string>
+    <string name="edit_password">Enter Password</string>
+    <string name="login_forgot_pswd">Forgot Password?</string>
+    <string name="login_login">Login</string>
+    <string name="login_signup">Registration</string>
+    <string name="login_about">About Us</string>
+    <string name="login_email_alert">Please enter your valid Email address!</string>
+    <string name="login_pwsd_alert">Please enter your password!</string>
+    <string name="login_successful_alert">Login Successful!</string>
+    <string name="login_rememberme">Remember Me </string>
+    <string name="login_member_login_text">MEMBER LOGIN</string>
+
+    <!-- Register Screen String -->
+    <string name="registration_title">REGISTRATION</string>
+    <string name="registration_customer_title">REGISTER CUSTOMER</string>
+    <string name="register_first_name_edit">First Name</string>
+    <string name="register_last_name_edit">Last Name</string>
+    <string name="register_email_edit">Email</string>
+    <string name="register_confirm_email_edit">Confirm Email</string>
+    <string name="register_password_edit">Password</string>
+    <string name="register_confirm_password_edit">Confirm Password</string>
+    <string name="register_phone_edit">Phone</string>
+    <string name="register_submit">Submit</string>
+    <string name="register_category">Choose Category</string>
+    <string name="register_subcategory_edit">Choose Sub Category</string>
+    <string name="register_blank_field_alert">All the fields are mandatory!</string>
+    <string name="register_successfull_registration_alert">Registration Successful!</string>
+    <string name="register_email_notmatch_alert">Email fields does not match!</string>
+    <string name="register_password_notmatch_alert">Password fields does not match!</string>
+
+    <!-- Forgot Screen Strings -->
+    <string name="forgot_title">FORGOT PASSWORD</string>
+    <string name="forgot_edit_email">Email Address</string>
+    <string name="forgot_email_alert">Enter Valid Email Address!</string>
+    <string name="forgot_password_sent_alert">Password sent successfully!</string>
+
+    <!-- Registration Dialog Strings -->
+    <string name="register_dialog_register_serviceprovider">REGISTER AS A SERVICE PROVIDER</string>
+    <string name="register_dialog_register_customer">REGISTER AS A CUSTOMER</string>
+
+    <string-array name="categories_String">
+        <item>Cell Phone Service</item>
+        <item>Cable Service</item>
+        <item>Car Insurance</item>
+        <item>Home Insurance</item>
+        <item>Real Estate Services</item>
+        <item>Airline Tickets</item>
+        <item>Taxi Service</item>
+        <item>Limo Service</item>
+        <item>Catering Services</item>
+        <item>CNA Training</item>
+        <item>Computer Services</item>
+        <item>Computer Training</item>
+        <item>More</item>
+    </string-array>
+
+    <!-- List inflate Strings -->
+
+    <string name="listinflate_name">Customer Name</string>
+    <string name="listinflate_services">Services</string>
+
+    <!-- Home fragment Strings -->
+    <string name="home_title">HOME</string>
+
+    <!-- Customer Registration Screen -->
+
+    <string name="customer_registration_submit">Submit</string>
+    <string name="customer_registration_add">Add</string>
+    <string name="customer_registration_service_hint">Enter Services</string>
+    
+    <!--  -->
+    <string name="register_customer_fragment_register_successfully">Register successfully</string>
+
+</resources>
