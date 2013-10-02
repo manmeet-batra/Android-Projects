@@ -15,11 +15,15 @@ public class Constants {
 			+ "command=get_categories";
 	public static final String REGISTRATION_SUB_CATEGORIES_URL = BASE_URL
 			+ "command=get_subcategories";
+	public static final String PROFILE_DETAIL_URL = BASE_URL
+			+ "command=owner_details&id=";
+
 	public static final int REGISTRATION_CATEGORIES_RESPONSEID = 1004;
 	public static final int REGISTRATION_SUB_CATEGORIES_RESPONSEID = 1005;
 	public static final int LOGIN_RESPONSEID = 1001;
 	public static final int REGISTRATION_RESPONSEID = 1002;
 	public static final int FORGOT_RESPONSEID = 1003;
+	public static final int PROFILE_DATA_ID = 1006;
 
 	/**
 	 * Key-Value pair
@@ -27,4 +31,18 @@ public class Constants {
 	public static String EMAIL = "email";
 	public static String PASSWORD = "password";
 	public static String IS_CHECKED = "is_checked";
+
+	/** Get customer details */
+	public static final String GET_CUSTOMER_URL = BASE_URL
+			+ "command=get_customers&id=";
+	public static final int GET_CUSTOMER_RESPONSEID = 1006;
+
+	/** Post user image */
+	public static final String POST_USER_IMAGE = "http://adwaz.us/adwaz_business_connections/upload_logo.php";
+	public static String KEY_SHARED_USERID = "userId";
+
+	/**
+	 * Customer Registration Constants
+	 */
+	public static String KEY_CUSTOMER_REGISTERED = "customer_registered";
 }

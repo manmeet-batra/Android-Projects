@@ -7,6 +7,7 @@ import com.example.adwaz.abstractclasses.AbstractFragmentsMainActivity;
 import com.example.adwaz.constant.Constants;
 import com.example.adwaz.fragments.LoginFragment;
 import com.example.adwaz.fragments.RegisterFragment;
+import com.example.adwaz.fragments.Registration_Customer_Fragment;
 import com.example.adwaz.preferences.Sharedprefrences;
 import com.example.adwaz.utils.FragmentsUtilClass;
 
@@ -31,9 +32,13 @@ public class MainFragmentActivity extends AbstractFragmentsMainActivity {
 		// TODO Auto-generated method stub
 		RegisterFragment registerFragment = (RegisterFragment) getSupportFragmentManager()
 				.findFragmentByTag(Constants.REGISTER_FRAGMENT_TAG);
-
+		Registration_Customer_Fragment customerRegistration = (Registration_Customer_Fragment) getSupportFragmentManager()
+				.findFragmentByTag(Constants.REGISTER_CUSTOMER_FRAGMENT_TAG);
 		if (registerFragment != null) {
 			registerFragment.onActivityResult(arg0, arg1, arg2);
+		}else if(customerRegistration !=null){
+			customerRegistration.onActivityResult(arg0, arg1, arg2);
+			
 		}
 
 	}

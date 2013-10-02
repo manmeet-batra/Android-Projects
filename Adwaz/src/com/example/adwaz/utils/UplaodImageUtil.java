@@ -68,11 +68,11 @@ public class UplaodImageUtil {
 			float scaleWidth = ((float) newWidth) / width;
 
 			float scaleHeight = ((float) newHeight) / height;
-			matrix.postScale(scaleWidth, scaleHeight);
+		//	matrix.postScale(scaleWidth, scaleHeight);
 			matrix.preRotate(rotation);
 
-			return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
-					bitmap.getHeight(), matrix, true);
+			return Bitmap.createBitmap(bitmap, 0, 0,newWidth,
+					newHeight, matrix, true);
 
 		} else {
 			// use the original

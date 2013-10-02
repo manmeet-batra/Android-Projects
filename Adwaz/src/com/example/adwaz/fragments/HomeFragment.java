@@ -1,5 +1,6 @@
 package com.example.adwaz.fragments;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -7,17 +8,34 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.example.adwaz.R;
+import com.example.adwaz.SplashActivity;
 import com.example.adwaz.abstractclasses.AbstractFragmentActivity;
 import com.example.adwaz.adapter.HomeAdapter;
+import com.example.adwaz.alerts.AlertDialogUtil;
+import com.example.adwaz.async.WebServiceAsync;
+import com.example.adwaz.async.WebServiceAsyncHttpPost;
+import com.example.adwaz.async.WebServiceAsync.OnWebServiceProcess;
+import com.example.adwaz.constant.Constants;
+import com.example.adwaz.listeners.OnAlertDialogFragmentListener;
+import com.example.adwaz.preferences.Sharedprefrences;
 import com.example.adwaz.utils.FragmentsUtilClass;
 
-public class HomeFragment extends AbstractFragmentActivity {
+public class HomeFragment extends AbstractFragmentActivity implements
+		OnWebServiceProcess {
 	private ListView list;
 	private HomeAdapter adapter;
 
 	@Override
 	public void getServerValues(String response, int id) {
-		// TODO Auto-generated method stub
+		if (!TextUtils.isEmpty(response)) {
+			adapter = new HomeAdapter(getActivity());
+			list.setAdapter(adapter);
+		} else {
+			new AlertDialogUtil().singleOptionAlertDialog(getActivity(), null,
+					R.string.alert_ok, getResources()
+							.getString(R.string.no_records), 0,
+					HomeFragment.this, Constants.GET_CUSTOMER_RESPONSEID);
+		}
 
 	}
 
@@ -59,8 +77,16 @@ public class HomeFragment extends AbstractFragmentActivity {
 
 			}
 		});
-		adapter = new HomeAdapter(getActivity());
-		list.setAdapter(adapter);
+
+		// hit web service to get the list of customers for the logged in user
+		Sharedprefrences mSharedprefrences = Sharedprefrences
+				.getInstance(getActivity());
+		WebServiceAsync.getInstance(getActivity(), this).get(
+				Constants.GET_CUSTOMER_URL
+						+ mSharedprefrences.getsharedstring(
+								Constants.KEY_SHARED_USERID, ""),
+				Constants.GET_CUSTOMER_RESPONSEID, null, null);
+
 		return view;
 	}
 

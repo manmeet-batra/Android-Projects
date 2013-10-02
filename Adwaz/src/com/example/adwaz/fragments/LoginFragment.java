@@ -41,7 +41,18 @@ public class LoginFragment extends AbstractFragmentActivity implements
 			try {
 				JSONObject jsonObject = new JSONObject(response);
 				String loginresponse = jsonObject.getString("login");
+				String userId = "";
 				if (TextUtils.equals(loginresponse, "yes")) {
+
+					if (jsonObject.has("userid")) {
+						userId = jsonObject.getString("userid");
+					}
+
+					// store user id
+					if (!TextUtils.isEmpty(userId)) {
+						mSharedprefrences.putsharedstring(
+								Constants.KEY_SHARED_USERID, userId);
+					}
 
 					if (mCheckBox.isChecked()) {
 						mSharedprefrences.putsharedstring(Constants.EMAIL,

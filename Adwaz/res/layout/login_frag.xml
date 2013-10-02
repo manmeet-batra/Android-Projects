@@ -109,8 +109,8 @@
 
             <com.example.adwaz.widgets.CustomCheckBox
                 android:id="@+id/remember_me_check"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
                 android:layout_weight=".5"
                 android:src="@drawable/checkbox_state" />

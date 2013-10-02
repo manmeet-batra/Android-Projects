@@ -3,6 +3,8 @@ package com.example.adwaz;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,8 +14,14 @@ import android.widget.TabHost.OnTabChangeListener;
 
 import com.example.adwaz.abstractclasses.AbstractFragmentsMainActivity;
 import com.example.adwaz.constant.Constants;
+import com.example.adwaz.fragments.AboutUsFragment;
 import com.example.adwaz.fragments.HomeFragment;
+import com.example.adwaz.fragments.ProfileFragment;
+import com.example.adwaz.fragments.RegisterFragment;
+import com.example.adwaz.fragments.Register_Option_Fragment;
+import com.example.adwaz.fragments.Registration_Customer_Fragment;
 import com.example.adwaz.preferences.Sharedprefrences;
+import com.example.adwaz.utils.FragmentsUtilClass;
 
 public class MainTabFragmentActivity extends AbstractFragmentsMainActivity
 		implements OnTabChangeListener {
@@ -23,8 +31,17 @@ public class MainTabFragmentActivity extends AbstractFragmentsMainActivity
 
 	@Override
 	public void onTabChanged(String tabId) {
-		// TODO Auto-generated method stub
 
+		/*
+		 * if (TextUtils.equals(Constants.REGISTER_CUSTOMER_FRAGMENT_TAG,
+		 * tabId)) { if
+		 * (mSharedprefrences.getboolean(Constants.KEY_CUSTOMER_REGISTERED,
+		 * false)) { FragmentsUtilClass.replaceFragment(new ProfileFragment(),
+		 * MainTabFragmentActivity.this, R.id.realtabcontent, true, true,
+		 * Constants.PROFILE_FRAGMENT_TAG, null);
+		 * 
+		 * } }
+		 */
 	}
 
 	/**
@@ -32,6 +49,7 @@ public class MainTabFragmentActivity extends AbstractFragmentsMainActivity
 	 */
 	// Fragment TabHost as mTabHost
 	private static FragmentTabHost tabHost;
+	private Sharedprefrences mSharedprefrences;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -39,10 +57,11 @@ public class MainTabFragmentActivity extends AbstractFragmentsMainActivity
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.bottom_tabs);
-
+		mSharedprefrences = Sharedprefrences
+				.getInstance(MainTabFragmentActivity.this);
 		tabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
 		tabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
-
+		tabHost.setOnTabChangedListener(this);
 		homeTabView = LayoutInflater.from(this).inflate(R.layout.tab_home_item,
 				null);
 		searchTabView = LayoutInflater.from(this).inflate(
@@ -72,12 +91,12 @@ public class MainTabFragmentActivity extends AbstractFragmentsMainActivity
 		/* Register customer tab */
 		tabHost.addTab(
 				tabHost.newTabSpec(Constants.REGISTER_CUSTOMER_FRAGMENT_TAG)
-						.setIndicator(registerTabView), HomeFragment.class,
-				null);
+						.setIndicator(registerTabView),
+				Registration_Customer_Fragment.class, null);
 
 		/* Profile tab */
 		tabHost.addTab(tabHost.newTabSpec(Constants.PROFILE_FRAGMENT_TAG)
-				.setIndicator(profileTabView), HomeFragment.class, null);
+				.setIndicator(profileTabView), ProfileFragment.class, null);
 
 	}
 
@@ -140,4 +159,21 @@ public class MainTabFragmentActivity extends AbstractFragmentsMainActivity
 			return super.onOptionsItemSelected(item);
 		}
 	}
+
+	@Override
+	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
+		// TODO Auto-generated method stub
+		RegisterFragment registerFragment = (RegisterFragment) getSupportFragmentManager()
+				.findFragmentByTag(Constants.REGISTER_FRAGMENT_TAG);
+		Registration_Customer_Fragment customerRegistration = (Registration_Customer_Fragment) getSupportFragmentManager()
+				.findFragmentByTag(Constants.REGISTER_CUSTOMER_FRAGMENT_TAG);
+		if (registerFragment != null) {
+			registerFragment.onActivityResult(arg0, arg1, arg2);
+		} else if (customerRegistration != null) {
+			customerRegistration.onActivityResult(arg0, arg1, arg2);
+
+		}
+
+	}
+
 }

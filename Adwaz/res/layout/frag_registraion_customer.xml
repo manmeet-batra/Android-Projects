@@ -19,10 +19,10 @@
 
             <ImageView
                 android:id="@+id/register_user_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_marginTop="10dp"
-                android:scaleType="center"
+                android:scaleType="centerCrop"
                 android:src="@drawable/profile_image" />
 
             <LinearLayout
@@ -123,6 +123,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/edittext_bg"
                 android:hint="@string/customer_registration_service_hint"
+                android:padding="10dp"
                 android:singleLine="true"
                 android:textColorHint="@android:color/black" />
         </LinearLayout>
@@ -132,7 +133,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"
-            android:background="@drawable/login_button_state"
+            android:background="@drawable/service_button_state"
             android:gravity="center"
             android:text="@string/register_submit"
             android:textColor="@android:color/white"

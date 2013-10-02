@@ -20,6 +20,8 @@
     <string name="image_option_alert">Choose an option</string>
     <string name="image_option_camera">Camera</string>
     <string name="image_option_gallery">Gallery</string>
+    <string name="no_records">No record(s) found!</string>
+
     <!-- About Us Text -->
     <string name="aboutus_title">ABOUT US</string>
     <string name="aboutus_text"> This screen will provide information regarding the application and its use.</string>
@@ -99,7 +101,7 @@
     <string name="customer_registration_submit">Submit</string>
     <string name="customer_registration_add">Add</string>
     <string name="customer_registration_service_hint">Enter Services</string>
-    
+
     <!--  -->
     <string name="register_customer_fragment_register_successfully">Register successfully</string>
 

@@ -12,6 +12,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:singleLine="true"
+        android:background="@drawable/service_button_state"
         android:textColor="@android:color/white" >
     </TextView>
 

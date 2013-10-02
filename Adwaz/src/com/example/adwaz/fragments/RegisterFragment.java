@@ -306,7 +306,7 @@ public class RegisterFragment extends AbstractFragmentActivity implements
 
 				cursor.close();
 
-				bitmap = UplaodImageUtil.getBitmap(picturePath, 150, 150,
+				bitmap = UplaodImageUtil.getBitmap(picturePath, 100, 100,
 						getActivity());
 
 			}
@@ -319,7 +319,7 @@ public class RegisterFragment extends AbstractFragmentActivity implements
 						Environment.getExternalStorageDirectory(), "Adwaz.jpg");
 
 				Uri uri = Uri.parse(cameraFile.toString());
-				bitmap = UplaodImageUtil.getBitmap(uri.toString(), 150, 150,
+				bitmap = UplaodImageUtil.getBitmap(uri.toString(), 100, 100,
 						getActivity());
 			}
 
