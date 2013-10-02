@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/layout_padding" >
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/apdater_search_relative"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/darker_gray"
@@ -19,17 +20,20 @@
 
         <TextView
             android:id="@+id/adapter_seach_name"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:paddingLeft="3dp"
+            android:layout_toRightOf="@+id/adapter_seach_imageView"
+            android:background="@color/adapter_search_textview"
+            android:paddingLeft="5dp"
             android:text="@string/app_name" />
-        <ImageView
+
+        <ImageView
             android:id="@+id/adapter_seach_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/profile_image" />
-    </LinearLayout>
+            android:layout_alignBottom="@+id/adapter_seach_imageView"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/arrow_search" />
+    </RelativeLayout>
 
 </FrameLayout>

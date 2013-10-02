@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 
 import com.example.adwaz.abstractclasses.AbstractFragmentsMainActivity;
+import com.example.adwaz.constant.Constants;
+import com.example.adwaz.preferences.Sharedprefrences;
 
 public class SplashActivity extends AbstractFragmentsMainActivity {
 
@@ -35,9 +37,21 @@ public class SplashActivity extends AbstractFragmentsMainActivity {
 			@Override
 			public void onFinish() {
 
-				startActivity(new Intent(SplashActivity.this,
-						MainFragmentActivity.class));
+				Sharedprefrences mSharedprefrences = Sharedprefrences
+						.getInstance(SplashActivity.this);
+				if (mSharedprefrences.getboolean(Constants.IS_CHECKED, false)) {
 
+					// start home tab screen because user have choodes to
+					// remember login
+					startActivity(new Intent(SplashActivity.this,
+							MainTabFragmentActivity.class)
+							.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+									| Intent.FLAG_ACTIVITY_NEW_TASK));
+				} else {
+
+					startActivity(new Intent(SplashActivity.this,
+							MainFragmentActivity.class));
+				}
 				finish();
 			}
 		}.start();

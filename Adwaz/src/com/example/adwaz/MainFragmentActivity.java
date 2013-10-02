@@ -10,8 +10,6 @@ import com.example.adwaz.fragments.RegisterFragment;
 import com.example.adwaz.preferences.Sharedprefrences;
 import com.example.adwaz.utils.FragmentsUtilClass;
 
-
-// Main Fragment Activity extends from Abstract Fragment Main Activity
 public class MainFragmentActivity extends AbstractFragmentsMainActivity {
 	Sharedprefrences sharedPrefs;
 

@@ -8,15 +8,19 @@ public class Constants {
 	public static final String REGISTER_CUSTOMER_FRAGMENT_TAG = "register customer fragment";
 	public static final String HOME_FRAGMENT_TAG = "home fragment";
 	public static final String REGISTER_OPTION_FRAGMENT_TAG = "register option fragment";
-
+	public static final String SEARCH_FRAGMENT_TAG = "Search fragment";
+	public static final String PROFILE_FRAGMENT_TAG = "Profile fragment";
 	public static final String BASE_URL = "http://184.168.55.132/adwaz_business_connections/services.php?";
-	public static final String REGISTRATION_CATEGORIES_URL =BASE_URL+"command=get_categories";
-	public static final String REGISTRATION_SUB_CATEGORIES_URL =BASE_URL+"command=get_subcategories";
+	public static final String REGISTRATION_CATEGORIES_URL = BASE_URL
+			+ "command=get_categories";
+	public static final String REGISTRATION_SUB_CATEGORIES_URL = BASE_URL
+			+ "command=get_subcategories";
+	public static final int REGISTRATION_CATEGORIES_RESPONSEID = 1004;
+	public static final int REGISTRATION_SUB_CATEGORIES_RESPONSEID = 1005;
 	public static final int LOGIN_RESPONSEID = 1001;
 	public static final int REGISTRATION_RESPONSEID = 1002;
-	public static final int FORGOT_RESPONSEID = 1003; 
-	public static final int REGISTRATION_CATEGORIES_RESPONSEID = 1004;
-	public static final int REGISTRATION_SUB_CATEGORIES_RESPONSEID = 1005;	
+	public static final int FORGOT_RESPONSEID = 1003;
+
 	/**
 	 * Key-Value pair
 	 */

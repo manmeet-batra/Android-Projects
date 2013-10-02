@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.adwaz.MainTabFragmentActivity;
 import com.example.adwaz.R;
 import com.example.adwaz.abstractclasses.AbstractFragmentActivity;
 import com.example.adwaz.alerts.AlertDialogUtil;
@@ -41,10 +43,28 @@ public class LoginFragment extends AbstractFragmentActivity implements
 				String loginresponse = jsonObject.getString("login");
 				if (TextUtils.equals(loginresponse, "yes")) {
 
-					new AlertDialogUtil().singleOptionAlertDialog(
-							getActivity(), null, R.string.alert_ok,
-							getString(R.string.login_successful_alert), 0,
-							this, 4);
+					if (mCheckBox.isChecked()) {
+						mSharedprefrences.putsharedstring(Constants.EMAIL,
+								email.getText().toString().trim());
+						mSharedprefrences.putsharedstring(Constants.PASSWORD,
+								password.getText().toString().trim());
+						mSharedprefrences
+								.putboolean(Constants.IS_CHECKED, true);
+					} else {
+						mSharedprefrences.putsharedstring(Constants.EMAIL, "");
+						mSharedprefrences.putsharedstring(Constants.PASSWORD,
+								"");
+						mSharedprefrences.putboolean(Constants.IS_CHECKED,
+								false);
+					}
+
+					/*
+					 * new AlertDialogUtil().singleOptionAlertDialog(
+					 * getActivity(), null, R.string.alert_ok,
+					 * getString(R.string.login_successful_alert), 0, this, 4);
+					 */
+					// start home tab screen
+					homefragment();
 
 				} else {
 
@@ -95,22 +115,29 @@ public class LoginFragment extends AbstractFragmentActivity implements
 	public View initialization(LayoutInflater layoutInflator) {
 		// TODO Auto-generated method stub
 		View view = layoutInflator.inflate(R.layout.login_frag, null);
-		email = (EditText) view.findViewById(R.id.edit_email);
-		password = (CustomEditText) view.findViewById(R.id.edit_password);
-		login = (Button) view.findViewById(R.id.login_login);
-		forgotPswd = (TextView) view.findViewById(R.id.forgot_password);
-		signUp = (Button) view.findViewById(R.id.login_signup);
-		mCheckBox = (CustomCheckBox) view.findViewById(R.id.remember_me_check);
-		mCheckBox.setOnClickListener(this);
-		login.setOnClickListener(this);
-		forgotPswd.setOnClickListener(this);
-		signUp.setOnClickListener(this);
+
 		if (mSharedprefrences.getboolean(Constants.IS_CHECKED, false)) {
-			email.setText(mSharedprefrences
-					.getsharedstring(Constants.EMAIL, ""));
-			password.setText(mSharedprefrences.getsharedstring(
-					Constants.PASSWORD, ""));
-			mCheckBox.setChecked(true);
+			/*
+			 * email.setText(mSharedprefrences .getsharedstring(Constants.EMAIL,
+			 * "")); password.setText(mSharedprefrences.getsharedstring(
+			 * Constants.PASSWORD, "")); mCheckBox.setChecked(true);
+			 */
+
+			// start home tab screen because user have choodes to remember login
+			homefragment();
+		} else {
+
+			email = (EditText) view.findViewById(R.id.edit_email);
+			password = (CustomEditText) view.findViewById(R.id.edit_password);
+			login = (Button) view.findViewById(R.id.login_login);
+			forgotPswd = (TextView) view.findViewById(R.id.forgot_password);
+			signUp = (Button) view.findViewById(R.id.login_signup);
+			mCheckBox = (CustomCheckBox) view
+					.findViewById(R.id.remember_me_check);
+			mCheckBox.setOnClickListener(this);
+			login.setOnClickListener(this);
+			forgotPswd.setOnClickListener(this);
+			signUp.setOnClickListener(this);
 		}
 		return view;
 	}
@@ -172,17 +199,7 @@ public class LoginFragment extends AbstractFragmentActivity implements
 				 * null, R.string.alert_ok,
 				 * getString(R.string.login_successful_alert), 0, this, 3);
 				 */
-				if (mCheckBox.isChecked()) {
-					mSharedprefrences.putsharedstring(Constants.EMAIL,
-							emailString);
-					mSharedprefrences.putsharedstring(Constants.PASSWORD,
-							passwoString);
-					mSharedprefrences.putboolean(Constants.IS_CHECKED, true);
-				} else {
-					mSharedprefrences.putsharedstring(Constants.EMAIL, "");
-					mSharedprefrences.putsharedstring(Constants.PASSWORD, "");
-					mSharedprefrences.putboolean(Constants.IS_CHECKED, false);
-				}
+
 				WebServiceAsync.getInstance(getActivity(), this).get(
 						Constants.BASE_URL + "command=login_owner&username="
 								+ emailString + "&password=" + passwoString,
@@ -218,8 +235,13 @@ public class LoginFragment extends AbstractFragmentActivity implements
 	}
 
 	private void homefragment() {
-		FragmentsUtilClass.replaceFragment(new HomeFragment(), getActivity(),
-				R.id.main_frame, false, false, Constants.HOME_FRAGMENT_TAG,
-				null);
+		/*
+		 * FragmentsUtilClass.replaceFragment(new HomeFragment(), getActivity(),
+		 * R.id.main_frame, false, false, Constants.HOME_FRAGMENT_TAG, null);
+		 */
+		startActivity(new Intent(getActivity(), MainTabFragmentActivity.class)
+				.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+						| Intent.FLAG_ACTIVITY_NEW_TASK));
+		;
 	}
 }
