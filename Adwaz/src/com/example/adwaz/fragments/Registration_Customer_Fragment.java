@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -124,7 +126,8 @@ public class Registration_Customer_Fragment extends AbstractFragmentActivity {
 						String[] value = { mFirstName.getText().toString(),
 								mLastName.getText().toString(),
 								mEmail.getText().toString(), "abc",
-								services.toString(), "Chd", "11" };
+								services.toString(), "Chd",
+								Constants.KEY_SERVICE_PROVIDER_REGISTERED };
 						WebServiceAsync.getInstance(getActivity(), this)
 								.getPair(
 										Constants.BASE_URL
@@ -194,13 +197,37 @@ public class Registration_Customer_Fragment extends AbstractFragmentActivity {
 	public void getServerValues(String response, int id) {
 		// TODO Auto-generated method stub
 		Log.i(getTag(), "response = " + response);
-		new AlertDialogUtil()
-				.singleOptionAlertDialog(
-						getActivity(),
-						null,
-						R.string.alert_ok,
-						getString(R.string.register_customer_fragment_register_successfully),
-						0, this, 1);
+		if (response != null) {
+			try {
+				JSONObject jsonObject = new JSONObject(response);
+				if (jsonObject.has("register")) {
+					String registrationResponse = jsonObject
+							.getString("register");
+					if (TextUtils.equals(registrationResponse, "yes")) {
+						new AlertDialogUtil()
+								.singleOptionAlertDialog(
+										getActivity(),
+										null,
+										R.string.alert_ok,
+										getString(R.string.register_customer_fragment_register_successfully),
+										0, this, 1);
+
+					} else if (TextUtils.equals(registrationResponse, "no")) {
+						String errorResponse = jsonObject.getString("error");
+						if (!TextUtils.equals(errorResponse, "")) {
+							new AlertDialogUtil().singleOptionAlertDialog(
+									getActivity(), null, R.string.alert_ok,
+									errorResponse, 0, this, 2);
+						}
+
+					}
+
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 
 	}
 

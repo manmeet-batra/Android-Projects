@@ -18,7 +18,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.adwaz.listeners.OnWebServiceProcess;
+import com.example.adwaz.async.WebServiceAsync.OnWebServiceProcess;
 import com.example.adwaz.utils.CustomProgressDialog;
 
 /**
@@ -42,6 +42,7 @@ public class WebServiceAsyncHttpPost extends AsyncTask<Void, Void, Void> {
 	private boolean isSuccess;
 	private static CustomProgressDialog dialog;
 	String[] keyArray, valueArray;
+	private static byte[] imageBytes;
 
 	/**
 	 * Constructor Definition
@@ -60,7 +61,8 @@ public class WebServiceAsyncHttpPost extends AsyncTask<Void, Void, Void> {
 	 *            array of values respect to keys
 	 */
 	public WebServiceAsyncHttpPost(Context context, String url, int id,
-			OnWebServiceProcess listener, String[] keyArr, String[] valueArr) {
+			OnWebServiceProcess listener, String[] keyArr, String[] valueArr,
+			byte[] ImageByteArray) {
 		// set the global values for the constructor parameters
 		this.interfaceListener = listener;
 		this.getUrl = url;
@@ -75,6 +77,9 @@ public class WebServiceAsyncHttpPost extends AsyncTask<Void, Void, Void> {
 			this.valueArray = new String[valueArr.length];
 			System.arraycopy(valueArr, 0, this.valueArray, 0, valueArr.length);
 		}
+		if (ImageByteArray != null) {
+			this.imageBytes = ImageByteArray;
+		}
 		// dialog = CustomProgressDialog.getInstance(context);
 	}
 
@@ -84,8 +89,7 @@ public class WebServiceAsyncHttpPost extends AsyncTask<Void, Void, Void> {
 
 		// send result to associated class/activity
 		if (interfaceListener != null) {
-			interfaceListener.getServerValues(getResult, receivedId, isSuccess,
-					exception);
+			interfaceListener.getServerValues(getResult, receivedId);
 		} else {
 			interfaceListener.setServerError(receivedId,
 					"Error in interface attached " + exception);
@@ -113,7 +117,9 @@ public class WebServiceAsyncHttpPost extends AsyncTask<Void, Void, Void> {
 	 */
 	@SuppressWarnings("unchecked")
 	public void hitServer() {
-
+		String lineEnd = "\r\n";
+		String twoHyphens = "--";
+		String boundary = "*****";
 		StringBuilder content1 = new StringBuilder();
 		HttpURLConnection urlConnection = null;
 		try {
@@ -131,35 +137,34 @@ public class WebServiceAsyncHttpPost extends AsyncTask<Void, Void, Void> {
 			urlConnection.setUseCaches(true);
 			urlConnection.setChunkedStreamingMode(1024);
 			// Enable POST method
+
 			urlConnection.setRequestMethod("POST");
-
 			urlConnection.setRequestProperty("Connection", "Keep-Alive");
-
-			urlConnection
-					.setRequestProperty("Content-Type", "application/json");
+			urlConnection.setRequestProperty("ENCTYPE", "multipart/form-data");
+			urlConnection.setRequestProperty("Content-Type",
+					"multipart/form-data;boundary=" + boundary);
+			urlConnection.setRequestProperty("Filedata", "abc");
+			// urlConnection.setRequestProperty("filedata", "asas");
 
 			/*
 			 * urlConnection.setRequestProperty("Accept-Charset", "UTF-8");
 			 */
-			JSONObject json = new JSONObject();
-			try {
-				if ((keyArray != null) && keyArray.length > 0) {
-					for (int i = 0; i < keyArray.length; i++) {
-						if (keyArray[i] != null && valueArray[i] != null) {
-							json.put(keyArray[i], valueArray[i]);
-						}
-					}
-				}
-			} catch (JSONException e) { // TODO Auto-generated catch
-										// block
-				e.printStackTrace();
-			}
 			/*
-			 * BufferedOutputStream bufferedOut = new BufferedOutputStream(
+			 * JSONObject json = new JSONObject(); try { if ((keyArray != null)
+			 * && keyArray.length > 0) { for (int i = 0; i < keyArray.length;
+			 * i++) { if (keyArray[i] != null && valueArray[i] != null) {
+			 * json.put(keyArray[i], valueArray[i]); } } } } catch
+			 * (JSONException e) { // TODO Auto-generated catch // block
+			 * e.printStackTrace(); }
+			 */
+
+			/*
+			 * * BufferedOutputStream bufferedOut = new BufferedOutputStream(
 			 * urlConnection.getOutputStream());
 			 * bufferedOut.write(json.toString().getBytes(), 0, json
 			 * .toString().getBytes().length);
 			 */
+
 			/*
 			 * try { FileOutputStream fOut = new FileOutputStream(new File(
 			 * Environment.getExternalStorageDirectory(), "jsontext.txt"));
@@ -167,12 +172,22 @@ public class WebServiceAsyncHttpPost extends AsyncTask<Void, Void, Void> {
 			 * osw.write(json.toString()); osw.flush(); osw.close(); } catch
 			 * (Exception e) { e.printStackTrace(); }
 			 */
-			urlConnection.setRequestProperty("Content-Length",
-					"" + Integer.toString(json.toString().length()));
+			/*
+			 * urlConnection.setRequestProperty("Content-Length", "" +
+			 * Integer.toString(json.toString().length()));
+			 */
 
 			DataOutputStream dataout = new DataOutputStream(
 					urlConnection.getOutputStream());
-			dataout.writeBytes(json.toString());
+			dataout.writeBytes(twoHyphens + boundary + lineEnd);
+			dataout.writeBytes("Content-Disposition: form-data; name=Filedata;fileName=abc "
+					+ lineEnd);
+
+			dataout.writeBytes(lineEnd);
+			dataout.write(imageBytes, 0, imageBytes.length);
+			dataout.writeBytes(lineEnd);
+			dataout.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+			;
 			/*
 			 * dataout.write(json.toString().getBytes(), 0, json
 			 * .toString().getBytes().length);

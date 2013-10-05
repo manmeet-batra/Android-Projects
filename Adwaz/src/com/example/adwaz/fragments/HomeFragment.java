@@ -1,6 +1,7 @@
 package com.example.adwaz.fragments;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,12 +29,13 @@ public class HomeFragment extends AbstractFragmentActivity implements
 	@Override
 	public void getServerValues(String response, int id) {
 		if (!TextUtils.isEmpty(response)) {
+			Log.e("Home Fragment Customer List ", response);
 			adapter = new HomeAdapter(getActivity());
 			list.setAdapter(adapter);
 		} else {
 			new AlertDialogUtil().singleOptionAlertDialog(getActivity(), null,
-					R.string.alert_ok, getResources()
-							.getString(R.string.no_records), 0,
+					R.string.alert_ok,
+					getResources().getString(R.string.no_records), 0,
 					HomeFragment.this, Constants.GET_CUSTOMER_RESPONSEID);
 		}
 
@@ -84,8 +86,13 @@ public class HomeFragment extends AbstractFragmentActivity implements
 		WebServiceAsync.getInstance(getActivity(), this).get(
 				Constants.GET_CUSTOMER_URL
 						+ mSharedprefrences.getsharedstring(
-								Constants.KEY_SHARED_USERID, ""),
+								Constants.KEY_SERVICE_PROVIDER_REGISTERED, ""),
 				Constants.GET_CUSTOMER_RESPONSEID, null, null);
+
+		Log.e("Get CUtomer List URL ",
+				Constants.GET_CUSTOMER_URL
+						+ mSharedprefrences.getsharedstring(
+								Constants.KEY_SERVICE_PROVIDER_REGISTERED, ""));
 
 		return view;
 	}

@@ -31,7 +31,9 @@ import com.example.adwaz.alerts.AlertDialogUtil;
 import com.example.adwaz.alerts.DoubleOptionAlertWithoutTitle;
 import com.example.adwaz.async.WebServiceAsync;
 import com.example.adwaz.async.WebServiceAsync.OnWebServiceProcess;
+import com.example.adwaz.async.WebServiceAsyncHttpPost;
 import com.example.adwaz.constant.Constants;
+import com.example.adwaz.preferences.Sharedprefrences;
 import com.example.adwaz.utils.FragmentsUtilClass;
 import com.example.adwaz.utils.UplaodImageUtil;
 import com.example.adwaz.utils.UtilityMethods;
@@ -47,34 +49,73 @@ public class RegisterFragment extends AbstractFragmentActivity implements
 	private Button submit;
 	private String mSubCategory, mCategory;
 	private String[] mCateogries;
+	private Sharedprefrences mpreferences;
+	private Bitmap mbitmap = null;
 
 	@Override
 	public void getServerValues(String response, int id) {
 		if (response != null) {
+			Log.e("Registration Response ", response);
 			switch (id) {
 			case Constants.REGISTRATION_RESPONSEID:
 				try {
 					JSONObject jsonObj = new JSONObject(response);
+					String registeredUsedId = jsonObj.getString("id");
+					if (!TextUtils.equals(registeredUsedId, "")) {
+						mpreferences.putsharedstring(
+								Constants.KEY_SERVICE_PROVIDER_REGISTERED,
+								registeredUsedId);
+						Log.e("Registration id ",
+								mpreferences
+										.getsharedstring(
+												Constants.KEY_SERVICE_PROVIDER_REGISTERED,
+												null));
+					}
 					String registration_successfull = jsonObj
 							.getString("register");
 					if (TextUtils.equals(registration_successfull, "yes")) {
+						if (mbitmap != null) {
+							byte[] imageBytesArray = UplaodImageUtil
+									.getBitmapByteArray(mbitmap);
+							/*
+							 * WebServiceAsync .getInstance(getActivity(), this)
+							 * .post(Constants.
+							 * OWNER_REGISTERED_PROFILE_IMAGE_UPLOAD_URL,
+							 * Constants.REGISTERED_PROFILE_IMAGE_UPLOAD_ID,
+							 * null, null);
+							 */
+							new WebServiceAsyncHttpPost(
+									getActivity(),
+									Constants.OWNER_REGISTERED_PROFILE_IMAGE_UPLOAD_URL
+											+ mpreferences
+													.getsharedstring(
+															Constants.KEY_SERVICE_PROVIDER_REGISTERED,
+															null),
+									Constants.REGISTERED_PROFILE_IMAGE_UPLOAD_ID,
+									this, null, null, imageBytesArray)
+									.execute();
 
-						new AlertDialogUtil()
-								.singleOptionAlertDialog(
-										getActivity(),
-										null,
-										R.string.alert_ok,
-										getString(R.string.register_successfull_registration_alert),
-										0, this, 2);
+						}
+						else{
+							
+							  new AlertDialogUtil() .singleOptionAlertDialog(
+							  getActivity(), null, R.string.alert_ok,
+							  getString(R.string
+							  .register_successfull_registration_alert), 0, this,
+							  2);
+							 
+						}
+						
 
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
 				break;
+
 			case Constants.REGISTRATION_CATEGORIES_RESPONSEID:
 				Log.v("Registration Categories Response ", response);
-			
+
 				try {
 					JSONArray categoriesJsonArray = new JSONArray(response);
 					mCateogries = new String[categoriesJsonArray.length()];
@@ -84,32 +125,36 @@ public class RegisterFragment extends AbstractFragmentActivity implements
 
 						mCateogries[count] = categoryType.getString("type");
 					}
-				
-			Handler handle = new Handler();
-			handle.post(new Runnable() {
-				
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-							getActivity(),
-							android.R.layout.simple_list_item_single_choice,
-							mCateogries);
-					adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-					category.setAdapter(adapter);
-					subcategory.setAdapter(adapter);
-					
-				}
-			});
+
+					Handler handle = new Handler();
+					handle.post(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+									getActivity(),
+									android.R.layout.simple_list_item_single_choice,
+									mCateogries);
+							adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+							category.setAdapter(adapter);
+							subcategory.setAdapter(adapter);
+
+						}
+					});
 
 				} catch (JSONException e) {
 				}
 
 				break;
+
 			case Constants.REGISTRATION_SUB_CATEGORIES_RESPONSEID:
 				Log.v("Registration Sub Categories Response ", response);
-				
-			
+
+				break;
+
+			case Constants.REGISTERED_PROFILE_IMAGE_UPLOAD_ID:
+				Log.v("Upload Image Response", response);
 				break;
 			default:
 				break;
@@ -121,7 +166,8 @@ public class RegisterFragment extends AbstractFragmentActivity implements
 	@Override
 	public void onPositiveButtonClick(int id) {
 		if (id == 2) {
-			FragmentsUtilClass.onBackPressedCalled(getActivity());
+		/*	FragmentsUtilClass.onBackPressedCalled(getActivity());*/
+			FragmentsUtilClass.clearBackStack(getActivity());
 		}
 
 	}
@@ -159,16 +205,19 @@ public class RegisterFragment extends AbstractFragmentActivity implements
 				.findViewById(R.id.register_password_confirm);
 		category = (Spinner) view.findViewById(R.id.register_category);
 		subcategory = (Spinner) view.findViewById(R.id.register_sub_category);
-	
+
 		submit = (Button) view.findViewById(R.id.register_submit);
 		/*
 		 * category.setAdapter(adapter); subcategory.setAdapter(adapter);
 		 */submit.setOnClickListener(this);
-		 userImage.setOnClickListener(this);
-	
-/*		WebServiceAsync.getInstance(getActivity(), this).get(
-				Constants.REGISTRATION_SUB_CATEGORIES_URL,
-				Constants.REGISTRATION_SUB_CATEGORIES_RESPONSEID, null, null);*/
+		userImage.setOnClickListener(this);
+		mpreferences = Sharedprefrences.getInstance(getActivity());
+
+		/*
+		 * WebServiceAsync.getInstance(getActivity(), this).get(
+		 * Constants.REGISTRATION_SUB_CATEGORIES_URL,
+		 * Constants.REGISTRATION_SUB_CATEGORIES_RESPONSEID, null, null);
+		 */
 		return view;
 	}
 
@@ -284,7 +333,7 @@ public class RegisterFragment extends AbstractFragmentActivity implements
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
-		Bitmap bitmap = null;
+		/* Bitmap bitmap = null; */
 		if (resultCode == Activity.RESULT_OK) {
 
 			Bitmap mBitmap;
@@ -306,7 +355,7 @@ public class RegisterFragment extends AbstractFragmentActivity implements
 
 				cursor.close();
 
-				bitmap = UplaodImageUtil.getBitmap(picturePath, 100, 100,
+				mbitmap = UplaodImageUtil.getBitmap(picturePath, 100, 100,
 						getActivity());
 
 			}
@@ -319,11 +368,11 @@ public class RegisterFragment extends AbstractFragmentActivity implements
 						Environment.getExternalStorageDirectory(), "Adwaz.jpg");
 
 				Uri uri = Uri.parse(cameraFile.toString());
-				bitmap = UplaodImageUtil.getBitmap(uri.toString(), 100, 100,
+				mbitmap = UplaodImageUtil.getBitmap(uri.toString(), 100, 100,
 						getActivity());
 			}
 
-			userImage.setImageBitmap(bitmap);
+			userImage.setImageBitmap(mbitmap);
 
 		}
 	}

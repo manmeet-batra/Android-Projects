@@ -81,30 +81,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/login_button_state"
-                android:padding="5dp"
                 android:minWidth="120dp"
+                android:padding="5dp"
                 android:text="@string/login_login"
                 android:textColor="@android:color/black" />
 
             <Button
                 android:id="@+id/login_signup"
-                android:minWidth="120dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/login_button_state"
+                android:minWidth="120dp"
                 android:padding="5dp"
                 android:text="@string/login_signup"
-                android:textColor="@android:color/black"/>
+                android:textColor="@android:color/black" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_below="@id/login_btn_linear"
-            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
+            android:orientation="horizontal"
             android:weightSum="3" >
 
             <com.example.adwaz.widgets.CustomCheckBox
@@ -120,19 +120,18 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
-                android:layout_weight="1"
-                android:gravity="center"
+                android:layout_weight=".5"
+                android:gravity="center_vertical|left"
                 android:text="@string/login_rememberme"
                 android:textColor="@android:color/black" />
 
             <TextView
                 android:id="@+id/forgot_password"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|right"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1.5"
-                android:gravity="center"
+                android:layout_weight="2"
+                android:gravity="center_vertical|left"
                 android:text="@string/login_forgot_pswd"
                 android:textColor="@android:color/black" />
         </LinearLayout>
@@ -144,7 +143,7 @@
         android:layout_below="@+id/relative1"
         android:layout_gravity="center_horizontal|center_vertical"
         android:layout_margin="20dp"
-        android:visibility="gone"
-        android:src="@drawable/login_icon" />
+        android:src="@drawable/login_icon"
+        android:visibility="gone" />
 
 </RelativeLayout>
